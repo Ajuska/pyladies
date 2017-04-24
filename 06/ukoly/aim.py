@@ -1,6 +1,6 @@
 from random import randrange
 
-from tah import tah
+from tahnuti import tah
 
 
 def tah_pc(pole_pc, symbol):

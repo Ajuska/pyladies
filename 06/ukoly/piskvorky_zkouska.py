@@ -1,6 +1,7 @@
 from random import randrange
 from tahnuti import tah
 from ai import tah_pocitace
+from aim import tah_pc
 
 def vyhodnot(herni_pole):
     "Vratí jednoznakový řetězec podle stavu hry"

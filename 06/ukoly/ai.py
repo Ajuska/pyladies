@@ -50,6 +50,13 @@ def tah_pocitace_x(herni_pole):
     if 'o-o' in herni_pole:
         a = herni_pole.index('o-o') + 1
         return tah(herni_pole, a, 'x')
+    if 'oo-' in herni_pole:
+        a = herni_pole.index('oo-') + 2
+        return tah(herni_pole, a, 'x')
+    if '-oo' in herni_pole:
+        a = herni_pole.index('-oo')
+        return tah(herni_pole, a, 'x')
+
     if utocit:
         if '-x--' in herni_pole:
             a = herni_pole.index('-x--') + 2
@@ -61,22 +68,10 @@ def tah_pocitace_x(herni_pole):
             plusminus = randrange(0, 3, 2)
             a = herni_pole.index('-o-') + plusminus
             return tah(herni_pole, a, 'x')
-        if 'oo-' in herni_pole:
-            a = herni_pole.index('oo-') + 2
-            return tah(herni_pole, a, 'x')
-        if '-oo' in herni_pole:
-            a = herni_pole.index('-oo')
-            return tah(herni_pole, a, 'x')
     else:
         if '-o-' in herni_pole:
             plusminus = randrange(0, 3, 2)
             a = herni_pole.index('-o-') + plusminus
-            return tah(herni_pole, a, 'x')
-        if 'oo-' in herni_pole:
-            a = herni_pole.index('oo-') + 2
-            return tah(herni_pole, a, 'x')
-        if '-oo' in herni_pole:
-            a = herni_pole.index('-oo')
             return tah(herni_pole, a, 'x')
         if '-x--' in herni_pole:
             a = herni_pole.index('-x--') + 2
