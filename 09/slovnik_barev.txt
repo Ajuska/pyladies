@@ -1,0 +1,7 @@
+
+barvy = {
+    'hruska': 'zelena'
+    'jablko': 'cervena'
+    'meloun': 'zelena'
+    'mrkev': 'oranzova'
+}
