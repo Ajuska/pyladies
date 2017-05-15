@@ -8,6 +8,7 @@ ROTATION_SPEED = 200
 spaceship_picture = pyglet.image.load("/home/aja/pyladies/12/obrazky/PNG/playerShip1_blue.png")
 spaceship_picture.anchor_x = spaceship_picture.width // 2
 spaceship_picture.anchor_y = spaceship_picture.height // 2
+batch = pyglet.graphics.Batch()
 
 pressed_keys = set()
 
@@ -18,7 +19,7 @@ class Spaceship:
         self.x_speed = 0
         self.y_speed = 0
         self.rotation = 0
-        self.sprite = pyglet.sprite.Sprite(spaceship_picture)
+        self.sprite = pyglet.sprite.Sprite(spaceship_picture, batch=batch)
         self.window = window
 
     def tick(self, t):
@@ -56,7 +57,7 @@ for i in range(36):
 def on_draw():
     window.clear()
     for obj in objects:
-        obj.sprite.draw()
+        batch.draw()
 
 def tick(t):
     for obj in objects:
