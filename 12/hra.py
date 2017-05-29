@@ -1,5 +1,6 @@
 import pyglet
 import math
+from pyglet import gl
 window = pyglet.window.Window()
 
 ACCELERATION = 100
@@ -12,15 +13,22 @@ batch = pyglet.graphics.Batch()
 
 pressed_keys = set()
 
-class Spaceship:
+class SpaceObject:
     def __init__(self, window):
-        self.x = window.width / 2
-        self.y = window.height / 2
+        self.x = 0
+        self.x = 0
         self.x_speed = 0
         self.y_speed = 0
         self.rotation = 0
-        self.sprite = pyglet.sprite.Sprite(spaceship_picture, batch=batch)
         self.window = window
+
+class Spaceship(SpaceObject):
+    def __init__(self, window):
+        super().__init__(window)
+        self.x = window.width / 2
+        self.y = window.height / 2
+        self.sprite = pyglet.sprite.Sprite(spaceship_picture, batch=batch)
+
 
     def tick(self, t):
         rotation_radians = math.radians(self.rotation)
@@ -49,15 +57,21 @@ class Spaceship:
         self.sprite.rotation = 90 - self.rotation
 
 objects = []
-for i in range(36):
+for i in range(1):
     spaceship = Spaceship(window)
     spaceship.rotation = i * 10
     objects.append(spaceship)
 
 def on_draw():
     window.clear()
-    for obj in objects:
-        batch.draw()
+
+    for x in -window.width, 0, window.width:
+        for y in -window.height, 0, window.height:
+            gl.glPushMatrix()
+            gl.glTranslatef(x, y, 0)
+            for obj in objects:
+                batch.draw()
+            gl.glPopMatrix()
 
 def tick(t):
     for obj in objects:
