@@ -53,6 +53,7 @@ def overlaps(a, b):
                         distance(a.y, b.y, window.height) ** 2)
     max_distance_squared = (a.radius + b.radius) ** 2
     return distance_squared < max_distance_squared
+
 class SpaceObject:
     def __init__(self, window):
         self.x = 0
@@ -64,7 +65,10 @@ class SpaceObject:
         self.radius = 35
         self.window = window
 
-        self.is_asteroid = False
+
+
+    def hit_by_spaceship(self, spaceship):
+        pass
 
 
     def tick(self, t):
@@ -107,6 +111,8 @@ class Asteroid(SpaceObject):
         self.rotation_speed = uniform(-ASTEROID_ROTATION_SPEED,
                                         ASTEROID_ROTATION_SPEED)
 
+    def hit_by_spaceship(self, spaceship):
+        spaceship.delete()
 
 
 class Spaceship(SpaceObject):
@@ -115,6 +121,7 @@ class Spaceship(SpaceObject):
         self.x = window.width / 2
         self.y = window.height / 2
         self.sprite = pyglet.sprite.Sprite(spaceship_picture, batch=batch)
+        self.time_from_last_laser = 0
 
     def tick(self, t):
         #Heading in radlans
@@ -128,8 +135,12 @@ class Spaceship(SpaceObject):
         if pyglet.window.key.LEFT in pressed_keys:
             self.rotation = self.rotation + ROTATION_SPEED * t
         if pyglet.window.key.SPACE in pressed_keys:
-            laser = Laser(self)
-            objects.append(laser)
+            if self.time_from_last_laser > 1/3:
+                laser = Laser(self)
+                objects.append(laser)
+                self.time_from_last_laser = 0
+
+        self.time_from_last_laser = self.time_from_last_laser + t
 
         #Slow down gradually
         self.x_speed = self.x_speed / 1.5 ** t
@@ -138,11 +149,9 @@ class Spaceship(SpaceObject):
         super().tick(t)
 
         for obj in list(objects):
-            obj.hit_by_spaceship}()
-            if obj.is_asteroid:
-                if overlaps(obj, self):
-                    self.delete()
-                    #raise Exeption('Game over!')
+            if overlaps(obj, self):
+                obj.hit_by_spaceship(spaceship)
+
 
 class Laser(SpaceObject):
     def __init__(self, parent):
