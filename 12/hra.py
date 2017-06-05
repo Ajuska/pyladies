@@ -66,8 +66,10 @@ class SpaceObject:
         self.window = window
 
 
-
     def hit_by_spaceship(self, spaceship):
+        pass
+
+    def hit_by_laser(self, laser):
         pass
 
 
@@ -114,6 +116,13 @@ class Asteroid(SpaceObject):
     def hit_by_spaceship(self, spaceship):
         spaceship.delete()
 
+    def hit_by_laser(self, laser):
+        self.delete()
+        laser.delete()
+
+
+
+
 
 class Spaceship(SpaceObject):
     def __init__(self, window):
@@ -150,7 +159,7 @@ class Spaceship(SpaceObject):
 
         for obj in list(objects):
             if overlaps(obj, self):
-                obj.hit_by_spaceship(spaceship)
+                obj.hit_by_spaceship(self)
 
 
 class Laser(SpaceObject):
@@ -162,6 +171,17 @@ class Laser(SpaceObject):
         self.x_speed = parent.x_speed
         self.y_speed = parent.y_speed
         self.rotation = parent.rotation
+
+        rotation_radians = math.radians(self.rotation)
+        self.x_speed = parent.x_speed + 500 * math.cos(rotation_radians)
+        self.y_speed = parent.y_speed + 500 * math.sin(rotation_radians)
+
+    def tick(self, t):
+        super().tick(t)
+        for obj in list(objects):
+            if overlaps(obj, self):
+                obj.hit_by_laser(self)
+
 
 
 
