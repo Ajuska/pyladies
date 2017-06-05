@@ -20,6 +20,7 @@ def load_image(filename):
 
 spaceship_picture = load_image("/home/aja/pyladies/12/obrazky/PNG/playerShip1_blue.png")
 asteroid_picture = load_image("/home/aja/pyladies/12/obrazky/PNG/Meteors/meteorBrown_big1.png")
+laser_picture = load_image("/home/aja/pyladies/12/obrazky/PNG/Lasers/laserBlue06.png")
 batch = pyglet.graphics.Batch()
 
 pressed_keys = set()
@@ -52,7 +53,6 @@ def overlaps(a, b):
                         distance(a.y, b.y, window.height) ** 2)
     max_distance_squared = (a.radius + b.radius) ** 2
     return distance_squared < max_distance_squared
-
 class SpaceObject:
     def __init__(self, window):
         self.x = 0
@@ -63,6 +63,8 @@ class SpaceObject:
         self.rotation_speed = 0
         self.radius = 35
         self.window = window
+
+        self.is_asteroid = False
 
 
     def tick(self, t):
@@ -91,6 +93,7 @@ class Asteroid(SpaceObject):
     def __init__(self, window):
         super().__init__(window)
         self.sprite = pyglet.sprite.Sprite(asteroid_picture, batch=batch)
+        self.is_asteroid = True
 
         self.x_speed = uniform(-ASTEROID_SPEED, ASTEROID_SPEED)
         self.y_speed = uniform(-ASTEROID_SPEED, ASTEROID_SPEED)
@@ -103,6 +106,8 @@ class Asteroid(SpaceObject):
 
         self.rotation_speed = uniform(-ASTEROID_ROTATION_SPEED,
                                         ASTEROID_ROTATION_SPEED)
+
+
 
 class Spaceship(SpaceObject):
     def __init__(self, window):
@@ -122,6 +127,10 @@ class Spaceship(SpaceObject):
             self.rotation = self.rotation - ROTATION_SPEED * t
         if pyglet.window.key.LEFT in pressed_keys:
             self.rotation = self.rotation + ROTATION_SPEED * t
+        if pyglet.window.key.SPACE in pressed_keys:
+            laser = Laser(self)
+            objects.append(laser)
+
         #Slow down gradually
         self.x_speed = self.x_speed / 1.5 ** t
         self.y_speed = self.y_speed  / 1.5 ** t
@@ -129,10 +138,23 @@ class Spaceship(SpaceObject):
         super().tick(t)
 
         for obj in list(objects):
-            if obj != self:
+            obj.hit_by_spaceship}()
+            if obj.is_asteroid:
                 if overlaps(obj, self):
                     self.delete()
                     #raise Exeption('Game over!')
+
+class Laser(SpaceObject):
+    def __init__(self, parent):
+        super().__init__(parent.window)
+        self.sprite = pyglet.sprite.Sprite(laser_picture, batch=batch)
+        self.x = parent.x
+        self.y = parent.y
+        self.x_speed = parent.x_speed
+        self.y_speed = parent.y_speed
+        self.rotation = parent.rotation
+
+
 
 #Create initial objects
 objects = []
