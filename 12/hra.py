@@ -171,6 +171,7 @@ class Laser(SpaceObject):
         self.x_speed = parent.x_speed
         self.y_speed = parent.y_speed
         self.rotation = parent.rotation
+        self.radius = 20
 
         rotation_radians = math.radians(self.rotation)
         self.x_speed = parent.x_speed + 500 * math.cos(rotation_radians)
@@ -205,8 +206,9 @@ def on_draw():
             batch.draw()
             gl.glPopMatrix()
 
-    for obj in objects:
-        draw_circle(obj.x, obj.y, obj.radius)
+    """Vykresli kolecka"""
+    #for obj in objects:
+    #    draw_circle(obj.x, obj.y, obj.radius)
 
 def tick(t):
     for obj in objects:
@@ -230,3 +232,7 @@ window.push_handlers(
 )
 
 pyglet.app.run()
+
+
+rozdelit asteroid po zasahu na dva mensi
+laser po urcite dobe zmizi
