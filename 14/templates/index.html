@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> Moje první stránka</title>
+    </head>
+    <body>
+        <h1>Ahoj PyLadies!</h1>
+        <p>
+            Tohle je stránka, kterou všechny opisujete.
+            <a href = "druha_stranka">Odkaz</a>
+            <a href = "{{ url_for ("user", name="Ajajajaja")}}">Uživatel</a>
+            <a href = "{{ url_for ("piskvorky", pole="-"*20)}}">Piškvorky</a>
+        </p>
+
+        <img src="{{ url_for ("static", filename = 'supercat.png')}}" alt="" height="100" width="100">
+    </body>
+</html>
