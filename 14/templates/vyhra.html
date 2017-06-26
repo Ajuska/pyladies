@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> Vyhra </title>
+    </head>
+    <body>
+        <h1> Seš super, je to výhra!!!!</h1>
+        <p>
+            Gratuluji.
+            <a href = "{{ url_for ("hello")}}">Home</a>
+            <a href = "{{ url_for ("piskvorky", pole="-"*20)}}">Hrát znovu</a>
+        </p>
+        <img src="{{ url_for ("static", filename = 'supercat.png')}}" alt="" height="100" width="100">
+    </body>
+</html>

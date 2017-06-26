@@ -15,6 +15,8 @@ def druha_stranka():
 def user(name):
     return render_template('uziv.html', name=name.upper())
 
+
+
 @app.route('/piskvorky/<pole>')
 @app.route('/piskvorky/<pole>/<pozice>')
 def piskvorky(pole, pozice=None):
@@ -28,7 +30,27 @@ def piskvorky(pole, pozice=None):
         if "xxx" not in pole:
             pole = tah_pocitace(pole, 'o')
 
-        if "xxx" in pole or "ooo" in pole:
-            return redirect(url_for("hello"))#presmerovat na gratuluji/vyhral pc
+        if "xxx" in pole:
+            return redirect(url_for("vyhra"))
+
+        if "ooo" in pole:
+            return redirect(url_for("prohra"))
+
+        if "-" not in pole:
+            return redirect(url_for("remiza"))
+
 
         return redirect(url_for('piskvorky', pole=pole))
+
+
+@app.route('/vyhra')
+def vyhra():
+    return render_template('vyhra.html')
+
+@app.route('/prohra')
+def prohra():
+    return render_template('prohra.html')
+
+@app.route('/remiza')
+def remiza():
+    return render_template('remiza.html')
